@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
   ModalController, AlertController,
-  IonHeader, IonToolbar, IonTitle, IonContent, IonList,
+  IonHeader, IonToolbar, IonTitle, IonContent,
   IonButton, IonIcon, IonChip, IonLabel, IonButtons,
   IonFab, IonFabButton,
 } from '@ionic/angular/standalone';
@@ -16,6 +17,7 @@ import { RemoteConfigService } from '../../core/services/remote-config.service';
 import { TaskItemComponent } from '../../shared/components/task-item/task-item.component';
 import { TaskStatsComponent } from '../../shared/components/task-stats/task-stats.component';
 import { AddTaskModalComponent } from '../../shared/components/add-task-modal/add-task-modal.component';
+import { CategoryByIdPipe } from '../../shared/pipes/category-by-id.pipe';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +26,8 @@ import { AddTaskModalComponent } from '../../shared/components/add-task-modal/ad
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AsyncPipe, RouterLink,
-    IonHeader, IonToolbar, IonTitle, IonContent, IonList,
+    AsyncPipe, RouterLink, ScrollingModule, CategoryByIdPipe,
+    IonHeader, IonToolbar, IonTitle, IonContent,
     IonButton, IonIcon, IonChip, IonLabel, IonButtons,
     IonFab, IonFabButton,
     TaskItemComponent, TaskStatsComponent,
@@ -48,12 +50,14 @@ export class HomePage {
 
   activeFilter: string | null = null;
 
-  constructor() {
-    addIcons({ addOutline, pricetagsOutline });
+  readonly itemSize = 64;
+
+  trackByTaskId(_index: number, task: { id: string }): string {
+    return task.id;
   }
 
-  getCategoryForTask(categoryId: string | null, categories: any[]) {
-    return categories.find(c => c.id === categoryId);
+  constructor() {
+    addIcons({ addOutline, pricetagsOutline });
   }
 
   async openAddTaskModal(categories: any[]): Promise<void> {
@@ -64,9 +68,7 @@ export class HomePage {
       initialBreakpoint: 0.65,
       handleBehavior: 'cycle',
     });
-
     await modal.present();
-
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm' && data) {
       this.taskService.add(data.title, data.categoryId);

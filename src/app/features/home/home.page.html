@@ -11,28 +11,24 @@
 </ion-header>
 
 <ion-content>
-  @if (taskPageData$ | async; as vm) {
+  @if (taskPageData$ | async; as data) {
 
-    <!-- Stats bar — controlled by Remote Config feature flag -->
-    @if (vm.showStats) {
-      <app-task-stats [tasks]="vm.tasks"></app-task-stats>
+    @if (data.showStats) {
+      <app-task-stats [tasks]="data.tasks"></app-task-stats>
     }
 
-    <!-- Category filter chips -->
-    @if (vm.categories.length > 0) {
+    @if (data.categories.length > 0) {
       <div class="filter-chips">
-        <ion-chip
-          [class.active]="activeFilter === null"
-          (click)="setFilter(null)"
-        >
+        <ion-chip [class.active]="activeFilter === null" (click)="setFilter(null)" (keyup.enter)="setFilter(null)">
           <ion-label>Todas</ion-label>
         </ion-chip>
-        @for (cat of vm.categories; track cat.id) {
+        @for (cat of data.categories; track cat.id) {
           <ion-chip
             [class.active]="activeFilter === cat.id"
             [style.--background]="activeFilter === cat.id ? cat.color : ''"
             [style.--color]="activeFilter === cat.id ? '#fff' : ''"
             (click)="setFilter(cat.id)"
+            (keyup.enter)="setFilter(cat.id)"
           >
             <ion-label>{{ cat.name }}</ion-label>
           </ion-chip>
@@ -40,27 +36,28 @@
       </div>
     }
 
-    <!-- Task list -->
-    <ion-list>
-      @for (task of vm.tasks; track task.id) {
+    @if (data.tasks.length === 0) {
+      <div class="empty-state">
+        <ion-icon name="add-outline" class="empty-icon"></ion-icon>
+        <p>No hay tareas aún.</p>
+        <p class="empty-hint">Tocá el botón <strong>+</strong> para agregar una.</p>
+      </div>
+    } @else {
+      <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="task-viewport">
         <app-task-item
+          *cdkVirtualFor="let task of data.tasks; trackBy: trackByTaskId"
           [task]="task"
-          [category]="getCategoryForTask(task.categoryId, vm.categories)"
+          [category]="task.categoryId | categoryById: data.categories"
           (toggled)="toggleTask($event)"
           (deleted)="deleteTask($event)"
         ></app-task-item>
-      } @empty {
-        <div class="empty-state">
-          <ion-icon name="add-outline" class="empty-icon"></ion-icon>
-          <p>No hay tareas aún.</p>
-          <p class="empty-hint">Tocá el botón <strong>+</strong> para agregar una.</p>
-        </div>
-      }
-    </ion-list>
+      </cdk-virtual-scroll-viewport>
+    }
 
-    <!-- FAB: add task -->
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button color="primary" (click)="openAddTaskModal(vm.categories)" (keyup.enter)="openAddTaskModal(vm.categories)">
+      <ion-fab-button color="primary"
+        (click)="openAddTaskModal(data.categories)"
+        (keyup.enter)="openAddTaskModal(data.categories)">
         <ion-icon name="add-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>

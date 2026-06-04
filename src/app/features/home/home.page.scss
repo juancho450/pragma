@@ -18,9 +18,14 @@
   }
 }
 
-ion-list {
-  background: transparent;
-  padding-bottom: 80px;
+.task-viewport {
+  height: calc(100vh - 180px);
+  width: 100%;
+
+  app-task-item {
+    display: block;
+    height: 64px;
+  }
 }
 
 .empty-state {
