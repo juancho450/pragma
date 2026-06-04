@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ editName ? 'Editar categoría' : 'Nueva categoría' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" fill="clear">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="modal-content">
+
+  <div class="form-group">
+    <ion-label class="field-label">Nombre de la categoría *</ion-label>
+    <ion-item lines="full" class="field-item">
+      <ion-input
+        [(ngModel)]="name"
+        placeholder="Ej: Trabajo, Personal, Urgente..."
+        (keyup.enter)="confirm()"
+        clearInput
+        autofocus
+      ></ion-input>
+    </ion-item>
+  </div>
+
+  <div class="form-group">
+    <ion-label class="field-label">Color</ion-label>
+    <div class="color-picker">
+      @for (color of colors; track color) {
+        <button
+          class="color-dot"
+          [class.selected]="selectedColor === color"
+          [style.background]="color"
+          (click)="selectedColor = color"
+          [attr.aria-label]="color"
+        ></button>
+      }
+    </div>
+  </div>
+
+  <div class="modal-actions">
+    <ion-button expand="block" color="primary" (click)="confirm()" [disabled]="!name.trim()">
+      {{ editName ? 'Guardar cambios' : 'Crear categoría' }}
+    </ion-button>
+    <ion-button expand="block" fill="outline" color="medium" (click)="dismiss()">
+      Cancelar
+    </ion-button>
+  </div>
+
+</ion-content>

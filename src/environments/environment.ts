@@ -6,6 +6,10 @@ export const environment = {
     projectId: '',
     storageBucket: '',
     messagingSenderId: '',
-    appId: ''
+    appId: '',
+    measurementId: ''
+  },
+  remoteConfigDefaults: {
+    show_task_stats: false
   }
 };

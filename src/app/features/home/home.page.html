@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Pragma To-Do-List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/categories" fill="clear" color="light">
+        <ion-icon slot="start" name="pricetags-outline"></ion-icon>
+        Categorías
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (taskPageData$ | async; as vm) {
+
+    <!-- Stats bar — controlled by Remote Config feature flag -->
+    @if (vm.showStats) {
+      <app-task-stats [tasks]="vm.tasks"></app-task-stats>
+    }
+
+    <!-- Category filter chips -->
+    @if (vm.categories.length > 0) {
+      <div class="filter-chips">
+        <ion-chip
+          [class.active]="activeFilter === null"
+          (click)="setFilter(null)"
+        >
+          <ion-label>Todas</ion-label>
+        </ion-chip>
+        @for (cat of vm.categories; track cat.id) {
+          <ion-chip
+            [class.active]="activeFilter === cat.id"
+            [style.--background]="activeFilter === cat.id ? cat.color : ''"
+            [style.--color]="activeFilter === cat.id ? '#fff' : ''"
+            (click)="setFilter(cat.id)"
+          >
+            <ion-label>{{ cat.name }}</ion-label>
+          </ion-chip>
+        }
+      </div>
+    }
+
+    <!-- Task list -->
+    <ion-list>
+      @for (task of vm.tasks; track task.id) {
+        <app-task-item
+          [task]="task"
+          [category]="getCategoryForTask(task.categoryId, vm.categories)"
+          (toggled)="toggleTask($event)"
+          (deleted)="deleteTask($event)"
+        ></app-task-item>
+      } @empty {
+        <div class="empty-state">
+          <ion-icon name="add-outline" class="empty-icon"></ion-icon>
+          <p>No hay tareas aún.</p>
+          <p class="empty-hint">Tocá el botón <strong>+</strong> para agregar una.</p>
+        </div>
+      }
+    </ion-list>
+
+    <!-- FAB: add task -->
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button color="primary" (click)="openAddTaskModal(vm.categories)" (keyup.enter)="openAddTaskModal(vm.categories)">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  }
+</ion-content>

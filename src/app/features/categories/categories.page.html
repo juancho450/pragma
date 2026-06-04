@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Categorías</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    @if (categories$ | async; as categories) {
+      @for (cat of categories; track cat.id) {
+        <ion-item-sliding>
+          <ion-item>
+            <span class="color-indicator" [style.background]="cat.color"></span>
+            <ion-label>{{ cat.name }}</ion-label>
+          </ion-item>
+
+          <ion-item-options side="end">
+            <ion-item-option color="primary"
+              (click)="openEditModal(cat.id, cat.name, cat.color)"
+              (keyup.enter)="openEditModal(cat.id, cat.name, cat.color)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-item-option>
+            <ion-item-option color="danger"
+              (click)="deleteCategory(cat.id)"
+              (keyup.enter)="deleteCategory(cat.id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      } @empty {
+        <div class="empty-state">
+          <p>No hay categorías. ¡Creá una!</p>
+          <p class="empty-hint">Tocá el botón <strong>+</strong> para empezar.</p>
+        </div>
+      }
+    }
+  </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button color="primary" (click)="openAddModal()" (keyup.enter)="openAddModal()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -1,0 +1,49 @@
+.modal-content {
+  --background: #f8f8fb;
+}
+
+.form-group {
+  padding: 20px 16px 0;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pragma-purple);
+  margin-bottom: 6px;
+}
+
+.field-item {
+  --background: #fff;
+  --border-radius: 10px;
+  --padding-start: 14px;
+  --inner-padding-end: 14px;
+  --color: var(--pragma-text-dark);
+  --placeholder-color: #aaa;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  margin-bottom: 4px;
+
+  ion-input, ion-select {
+    --color: var(--pragma-text-dark);
+    font-size: 1rem;
+    min-height: 48px;
+  }
+}
+
+.modal-actions {
+  padding: 28px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  ion-button {
+    --border-radius: 10px;
+    height: 48px;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+}

@@ -68,7 +68,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-# Firebase config
-/google-services.json
-/GoogleService-Info.plist

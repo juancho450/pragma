@@ -1,0 +1,19 @@
+.task-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--pragma-text-dark);
+  transition: opacity 0.2s ease;
+}
+
+ion-badge {
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: #fff;
+}
+
+.completed {
+  .task-title {
+    text-decoration: line-through;
+    opacity: var(--pragma-completed-opacity);
+  }
+}

@@ -1,0 +1,19 @@
+<ion-item [class.completed]="task.completed" lines="full">
+  <ion-checkbox
+    slot="start"
+    [checked]="task.completed"
+    (ionChange)="toggled.emit(task.id)"
+    color="primary"
+  ></ion-checkbox>
+
+  <ion-label>
+    <p class="task-title">{{ task.title }}</p>
+    @if (category) {
+      <ion-badge [style.background]="category.color">{{ category.name }}</ion-badge>
+    }
+  </ion-label>
+
+  <ion-button slot="end" fill="clear" color="danger" (click)="deleted.emit(task.id)">
+    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+  </ion-button>
+</ion-item>

@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Nueva tarea</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" fill="clear">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="modal-content">
+
+  <div class="form-group">
+    <ion-label class="field-label">Nombre de la tarea *</ion-label>
+    <ion-item lines="full" class="field-item">
+      <ion-input
+        [(ngModel)]="title"
+        placeholder="¿Qué tienes que hacer?"
+        (keyup.enter)="confirm()"
+        clearInput
+        autofocus
+      ></ion-input>
+    </ion-item>
+  </div>
+
+  <div class="form-group">
+    <ion-label class="field-label">Categoría</ion-label>
+    <ion-item lines="full" class="field-item">
+      <ion-select
+        [(ngModel)]="categoryId"
+        placeholder="Sin categoría"
+        interface="action-sheet"
+        cancelText="Cancelar"
+      >
+        <ion-select-option [value]="null">Sin categoría</ion-select-option>
+        @for (cat of categories; track cat.id) {
+          <ion-select-option [value]="cat.id">{{ cat.name }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <div class="modal-actions">
+    <ion-button expand="block" color="primary" (click)="confirm()" [disabled]="!title.trim()">
+      Agregar tarea
+    </ion-button>
+    <ion-button expand="block" fill="outline" color="medium" (click)="dismiss()">
+      Cancelar
+    </ion-button>
+  </div>
+
+</ion-content>
