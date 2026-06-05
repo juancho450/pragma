@@ -38,6 +38,7 @@ npm install -g @ionic/cli cordova native-run cordova-res
 ```bash
 git clone https://github.com/juancho450/pragma.git
 cd pragma
+git checkout feature/todo-categories-firebase
 npm install
 ```
 
