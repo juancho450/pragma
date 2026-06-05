@@ -3,8 +3,8 @@
     <ion-title>Pragma To-Do-List</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/categories" fill="clear" color="light">
-        <ion-icon slot="start" name="pricetags-outline"></ion-icon>
-        Categorías
+        <ion-icon [attr.slot]="isIos ? 'icon-only' : 'start'" name="pricetags-outline"></ion-icon>
+        @if (!isIos) { Categorías }
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -40,7 +40,7 @@
       <div class="empty-state">
         <ion-icon name="add-outline" class="empty-icon"></ion-icon>
         <p>No hay tareas aún.</p>
-        <p class="empty-hint">Tocá el botón <strong>+</strong> para agregar una.</p>
+        <p class="empty-hint">Toca el botón <strong>+</strong> para agregar una.</p>
       </div>
     } @else {
       <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="task-viewport">

@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
-  ModalController, AlertController,
+  ModalController, AlertController, Platform,
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonButton, IonIcon, IonChip, IonLabel, IonButtons,
   IonFab, IonFabButton,
@@ -39,6 +39,7 @@ export class HomePage {
   private readonly remoteConfigService = inject(RemoteConfigService);
   private readonly modalCtrl = inject(ModalController);
   private readonly alertCtrl = inject(AlertController);
+  readonly isIos = inject(Platform).is('ios');
 
   readonly taskPageData$ = combineLatest([
     this.taskService.filteredTasks$,
