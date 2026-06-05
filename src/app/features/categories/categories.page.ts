@@ -3,7 +3,7 @@ import { AsyncPipe } from '@angular/common';
 import {
   ModalController, AlertController,
   IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem,
-  IonLabel, IonButton, IonIcon, IonButtons, IonBackButton,
+  IonLabel, IonIcon, IonButtons, IonBackButton,
   IonItemSliding, IonItemOptions, IonItemOption,
   IonFab, IonFabButton,
 } from '@ionic/angular/standalone';
@@ -21,7 +21,7 @@ import { AddCategoryModalComponent } from '../../shared/components/add-category-
   imports: [
     AsyncPipe,
     IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem,
-    IonLabel, IonButton, IonIcon, IonButtons, IonBackButton,
+    IonLabel, IonIcon, IonButtons, IonBackButton,
     IonItemSliding, IonItemOptions, IonItemOption,
     IonFab, IonFabButton,
   ],
